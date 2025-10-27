@@ -27,12 +27,12 @@ describe("woowacourse/mission-utils api 테스트", () => {
     expect(MissionUtils.Console.readLineAsync).toHaveBeenCalledWith(question);
     expect(userReply).toBe(answer);
   });
-  test("0 이상 9 이하의 정수를 반환한다", () => {
-    // 여러 번 호출해서 랜덤성 포함 확인
+
+  test("Random.pickNumberInRange를 사용해 0 이상 9 이하의 정수를 생성한다", () => {
     const results = Array.from({ length: 100 }, () =>
       app.pickRandomNumberInRangeUsingWoowaMissionApi(0, 9)
     );
-
+    
     for (const num of results) {
       expect(Number.isInteger(num)).toBe(true);
       expect(num).toBeGreaterThanOrEqual(0);
