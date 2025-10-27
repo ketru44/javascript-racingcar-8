@@ -1,15 +1,27 @@
-import { Console } from "@woowacourse/mission-utils";
+import { MissionUtils } from "@woowacourse/mission-utils";
 import { parseByComma } from "./utils/parsing";
 
 class App {
   async run() {
     const stringOfCarNamesUserRequest = await this.readInputAsyncUsingWoowaMissionApi("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)").split(",");
     const arrayOfCarNamesUserRequest = parseByComma(stringOfCarNamesUserRequest);
-    const countOfLapUserRequest = await this.readInputAsyncUsingWoowaMissionApi("시도할 횟수는 몇 회인가요?");
+    const stringOfLapUserRequest = await this.readInputAsyncUsingWoowaMissionApi("시도할 횟수는 몇 회인가요?");
+    const countOfLapUserRequest = Number(stringOfLapUserRequest);
+    const randomNumberTape = this.makeRandomNumbersTape(arrayOfCarNamesUserRequest, countOfLapUserRequest);
   }
   async readInputAsyncUsingWoowaMissionApi(questionStr) {
-    return await Console.readLineAsync(questionStr);
+    return await MissionUtils.Console.readLineAsync(questionStr);
   }
-}
-
+  makeRandomNumbersTape(cars, laps) { // 필요한 만큼의 난수를 만들고 레이스 진행
+    let numberTape = [];
+    const countOfNeededNumber = cars.length * laps;
+    for(let cnt = 0; cnt < countOfNeededNumber; cnt++) {
+      numberTape.push(this.pickRandomNumberInRangeUsingWoowaMissionApi(0,9))
+    }
+    return numberTape;
+  } 
+  pickRandomNumberInRangeUsingWoowaMissionApi(min,max) {
+    return MissionUtils.Random.pickNumberInRange(min, max);
+  }
+};
 export default App;

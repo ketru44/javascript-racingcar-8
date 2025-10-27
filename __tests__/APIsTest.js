@@ -11,16 +11,32 @@ const mockQuestions = (inputs) => {
 };
 
 
-describe("woowacourse/mission-utils readLineAsync 입력 테스트", () => {
+describe("woowacourse/mission-utils api 테스트", () => {
+  let app;
+  beforeEach(() => {
+    app = new App();
+  })
+
   test.each([
     ["경주할 자동차 이름을 입력해주세요.", "a,b,c"],
     ["경주할 자동차의 이름을 입력해주십쇼.","hihi, woowa, pre"],
     ["시도할 횟수는 몇 회인가요?", "5"]
-  ])("입력값(자동차명 or 랩 수)가 정상적으로 처리되어 가져온다.", async (question, answer) => {
+  ])("readLineAsync가 입력값(자동차명 or 랩 수)을 정상적으로 처리되어 가져온다.", async (question, answer) => {
     mockQuestions([answer]);
-    const app = new App();
     const userReply = await app.readInputAsyncUsingWoowaMissionApi(question);
     expect(MissionUtils.Console.readLineAsync).toHaveBeenCalledWith(question);
     expect(userReply).toBe(answer);
-  })
+  });
+  test("0 이상 9 이하의 정수를 반환한다", () => {
+    // 여러 번 호출해서 랜덤성 포함 확인
+    const results = Array.from({ length: 100 }, () =>
+      app.pickRandomNumberInRangeUsingWoowaMissionApi(0, 9)
+    );
+
+    for (const num of results) {
+      expect(Number.isInteger(num)).toBe(true);
+      expect(num).toBeGreaterThanOrEqual(0);
+      expect(num).toBeLessThanOrEqual(9);
+    }
+  });
 })
