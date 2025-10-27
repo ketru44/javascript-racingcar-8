@@ -1,5 +1,7 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
 import { parseByComma } from "./utils/parsing";
+import { runEntireRace } from "./domains/race";
+import { determineWinnerOfRace } from "./domains/queries";
 
 class App {
   async run() {
@@ -9,6 +11,7 @@ class App {
     const countOfLapUserRequest = Number(stringOfLapUserRequest);
     const randomNumberTape = this.makeRandomNumbersTape(arrayOfCarNamesUserRequest, countOfLapUserRequest);
     const historyOfRace = runEntireRace(arrayOfCarNamesUserRequest, countOfLapUserRequest, randomNumberTape);
+    const namesOfWinner = determineWinnerOfRace(arrayOfCarNamesUserRequest, historyOfRace[historyOfRace.length -1]);
   }
   async readInputAsyncUsingWoowaMissionApi(questionStr) {
     return await MissionUtils.Console.readLineAsync(questionStr);
