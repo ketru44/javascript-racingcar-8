@@ -2,11 +2,13 @@ import { MissionUtils } from "@woowacourse/mission-utils";
 import { parseByComma, parseToHistoryFormat, parserToWinnerFormat } from "./utils/parsing";
 import { runEntireRace } from "./domains/race";
 import { determineWinnerOfRace } from "./domains/queries";
+import { validateCarNameRule } from "./utils/validator";
 
 class App {
   async run() {
     const stringOfCarNamesUserRequest = await this.readInputAsyncUsingWoowaMissionApi("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
     const arrayOfCarNamesUserRequest = parseByComma(stringOfCarNamesUserRequest);
+    validateCarNameRule(arrayOfCarNamesUserRequest);  
     const stringOfLapUserRequest = await this.readInputAsyncUsingWoowaMissionApi("시도할 횟수는 몇 회인가요?");
     const countOfLapUserRequest = Number(stringOfLapUserRequest);
     const randomNumberTape = this.makeRandomNumbersTape(arrayOfCarNamesUserRequest, countOfLapUserRequest);
