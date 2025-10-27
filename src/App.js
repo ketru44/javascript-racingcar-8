@@ -2,7 +2,7 @@ import { MissionUtils } from "@woowacourse/mission-utils";
 import { parseByComma, parseToHistoryFormat, parserToWinnerFormat } from "./utils/parsing";
 import { runEntireRace } from "./domains/race";
 import { determineWinnerOfRace } from "./domains/queries";
-import { validateCarNameRule } from "./utils/validator";
+import { validateCarNameRule, validateLapNumberRule } from "./utils/validator";
 
 class App {
   async run() {
@@ -11,6 +11,7 @@ class App {
     validateCarNameRule(arrayOfCarNamesUserRequest);  
     const stringOfLapUserRequest = await this.readInputAsyncUsingWoowaMissionApi("시도할 횟수는 몇 회인가요?");
     const countOfLapUserRequest = Number(stringOfLapUserRequest);
+    validateLapNumberRule(countOfLapUserRequest);
     const randomNumberTape = this.makeRandomNumbersTape(arrayOfCarNamesUserRequest, countOfLapUserRequest);
     const historyOfRace = runEntireRace(arrayOfCarNamesUserRequest, countOfLapUserRequest, randomNumberTape);
     const namesOfWinner = determineWinnerOfRace(arrayOfCarNamesUserRequest, historyOfRace[historyOfRace.length -1]);
