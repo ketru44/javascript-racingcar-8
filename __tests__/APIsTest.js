@@ -52,5 +52,12 @@ describe("woowacourse/mission-utils api 테스트", () => {
     logs.forEach((log) => {
       expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
     });
+  });
+
+  test("Console.print를 사용해 우승자를 출력한다.", () => {
+    const log = "최종 우승자 : a, b";
+    const logSpy = getLogSpy();
+    app.printWinnerOfRace(["a", "b"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
   })
 })
