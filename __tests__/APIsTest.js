@@ -10,6 +10,11 @@ const mockQuestions = (inputs) => {
   });
 };
 
+const getLogSpy = () => {
+  const logSpy = jest.spyOn(MissionUtils.Console, "print");
+  logSpy.mockClear();
+  return logSpy;
+};
 
 describe("woowacourse/mission-utils api 테스트", () => {
   let app;
@@ -32,11 +37,20 @@ describe("woowacourse/mission-utils api 테스트", () => {
     const results = Array.from({ length: 100 }, () =>
       app.pickRandomNumberInRangeUsingWoowaMissionApi(0, 9)
     );
-    
+
     for (const num of results) {
       expect(Number.isInteger(num)).toBe(true);
       expect(num).toBeGreaterThanOrEqual(0);
       expect(num).toBeLessThanOrEqual(9);
     }
   });
+
+  test("Console.print를 사용해 레이스의 히스토리를 출력한다.", () => {
+    const logs = ["a : -", "b : ", "a : --", "a : --\nb : -\nc : -"]
+    const logSpy = getLogSpy();
+    app.printHistoryOfRace([[1, 0, 1], [1, 1, 1], [2, 1, 1]], ["a", "b", "c"]);
+    logs.forEach((log) => {
+      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));
+    });
+  })
 })

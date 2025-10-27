@@ -1,5 +1,5 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
-import { parseByComma } from "./utils/parsing";
+import { parseByComma, parseToHistoryFormat } from "./utils/parsing";
 import { runEntireRace } from "./domains/race";
 import { determineWinnerOfRace } from "./domains/queries";
 
@@ -12,6 +12,7 @@ class App {
     const randomNumberTape = this.makeRandomNumbersTape(arrayOfCarNamesUserRequest, countOfLapUserRequest);
     const historyOfRace = runEntireRace(arrayOfCarNamesUserRequest, countOfLapUserRequest, randomNumberTape);
     const namesOfWinner = determineWinnerOfRace(arrayOfCarNamesUserRequest, historyOfRace[historyOfRace.length -1]);
+    this.printHistoryOfRace(historyOfRace, arrayOfCarNamesUserRequest);
   }
   async readInputAsyncUsingWoowaMissionApi(questionStr) {
     return await MissionUtils.Console.readLineAsync(questionStr);
@@ -26,6 +27,14 @@ class App {
   } 
   pickRandomNumberInRangeUsingWoowaMissionApi(min, max) {
     return MissionUtils.Random.pickNumberInRange(min, max);
+  }
+  printOutputUsingWoowaMissionApi(output) {
+    MissionUtils.Console.print(output);
+  }
+  printHistoryOfRace(history, name) {
+    history.forEach(log => {
+      this.printOutputUsingWoowaMissionApi(parseToHistoryFormat(log, name))
+    })
   }
 };
 export default App;
