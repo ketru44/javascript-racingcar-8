@@ -13,7 +13,8 @@ describe("유틸 함수 테스트", () => {
   });
 
   test.each(([
-    [["a", "aaaa", "bbbbbb"], "[ERROR] : 자동차 명은 5자 이하여야 합니다."] 
+    [["a", "aaaa", "bbbbbb"], "[ERROR] : 자동차 명은 5자 이하여야 합니다."],
+    [["a", "a", "ab"], "[ERROR] : 중복된 이름을 사용할 수 없습니다."] 
   ]))("자동차명 검증 테스트", (carNameHasErr, errMsg) => {
     expect(() => validateCarNameRule(carNameHasErr)).toThrow(errMsg);
   })
