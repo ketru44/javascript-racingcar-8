@@ -5,7 +5,7 @@ export function runEntireRace(arrOfCarNames, cntOfLaps, randomTape) {
   const raceHistoryByLap = []; // 최종결과(마지막랩)로 쉽게 활용할 수 있도록 랩을 기준으로 데이터 저장
   for(let currentLap = 0 ; currentLap < cntOfLaps ; currentLap++) {
     scoreAfterCurrentLap = scoreAfterCurrentLap.slice().map(prev => {
-      if(meetMoveCondition(randomTape.pop())) return prev + 1;
+      if(meetMoveCondition(randomTape.shift())) return prev + 1;
       return prev;
     });
     raceHistoryByLap.push(scoreAfterCurrentLap.slice());
